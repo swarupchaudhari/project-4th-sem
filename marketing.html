@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Live Market Prices — Marketing Site</title>
+  <link rel="stylesheet" href="/marketing.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">MarketLive</div>
+    <div class="subtitle">Real-time product pricing for marketing & analysis</div>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <input id="filter" placeholder="Filter products (name or tag)..." />
+      <button id="refresh">Refresh</button>
+    </section>
+
+    <section id="productGrid" class="grid">
+      <!-- Products inserted here by marketing.js -->
+    </section>
+
+    <footer class="footer">
+      <small>Demo data. Replace backend feed with real price API for production.</small>
+    </footer>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/marketing.js"></script>
+</body>
+</html>
