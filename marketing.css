@@ -1,0 +1,88 @@
+:root{
+  --bg:#0f1720;
+  --card:#0b1320;
+  --accent:#10b981; /* green */
+  --muted:#9aa6b2;
+  --danger:#ef4444;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, system-ui, Arial;
+  background: linear-gradient(180deg,#071020 0%, #071427 100%);
+  color:#e6eef3;
+  min-height:100vh;
+}
+.topbar{
+  padding:18px 28px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.brand{font-weight:700; font-size:20px; color:var(--accent)}
+.subtitle{color:var(--muted); font-size:14px}
+
+.container{padding:24px; max-width:1100px; margin:20px auto}
+
+.controls{display:flex; gap:10px; margin-bottom:16px}
+#filter{flex:1; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:#07121a; color:inherit}
+#refresh{padding:10px 14px; border-radius:8px; border:none; background:var(--accent); color:#052018; cursor:pointer}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+}
+
+/* Product card */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.03);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.card:hover{transform:translateY(-6px); box-shadow:0 12px 30px rgba(2,6,23,0.6)}
+.card .meta{display:flex; justify-content:space-between; align-items:center}
+.card h3{margin:0; font-size:18px}
+.card p{margin:0; color:var(--muted); font-size:13px}
+.price{
+  font-weight:700;
+  font-size:20px;
+  letter-spacing:0.5px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* price change badges */
+.badge{
+  padding:6px 8px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+}
+.up{background:rgba(16,185,129,0.12); color:var(--accent); border:1px solid rgba(16,185,129,0.18)}
+.down{background:rgba(239,68,68,0.08); color:var(--danger); border:1px solid rgba(239,68,68,0.12)}
+
+/* subtle flash animation on update */
+.flash-up{animation:flashUp .9s ease}
+.flash-down{animation:flashDown .9s ease}
+@keyframes flashUp{
+  0%{box-shadow:0 0 0 0 rgba(16,185,129,0.0)}
+  40%{box-shadow:0 8px 30px 0 rgba(16,185,129,0.12)}
+  100%{box-shadow:0 0 0 0 rgba(16,185,129,0.0)}
+}
+@keyframes flashDown{
+  0%{box-shadow:0 0 0 0 rgba(239,68,68,0.0)}
+  40%{box-shadow:0 8px 30px 0 rgba(239,68,68,0.10)}
+  100%{box-shadow:0 0 0 0 rgba(239,68,68,0.0)}
+}
+
+.footer{margin-top:18px; color:var(--muted); font-size:13px; text-align:center}
