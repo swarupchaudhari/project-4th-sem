@@ -1,0 +1,5 @@
+SmartTaskManager/
+│
+├── Task.java
+├── TaskManager.java
+└── Main.java
