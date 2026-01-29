@@ -1,0 +1,33 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data
+data = pd.read_excel('sales data.xlsx', engine='openpyxl')
+
+# Check the first few rows
+print(data.head())
+
+# Create a new column combining Region and Year
+data['Region_Year'] = data['Region'] + '-' + data['Year'].astype(str)
+
+# Sort the data for organized plotting
+data = data.sort_values(['Region', 'Year'])
+
+# Get unique Region_Year labels
+labels = data['Region_Year'].unique()
+
+# Prepare sales data for each Region_Year
+plot_data = [
+    data.loc[data['Region_Year'] == label, 'Sales'].values
+    for label in labels
+]
+
+# Create the box plot
+plt.figure(figsize=(12, 8))
+plt.boxplot(plot_data, labels=labels, vert=True, patch_artist=True)
+
+plt.title('Box Plot of Sales by Region and Year')
+plt.ylabel('Sales')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
