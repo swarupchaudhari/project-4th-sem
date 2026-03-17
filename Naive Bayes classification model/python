@@ -1,0 +1,39 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.datasets import load_iris
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, precision_score
+
+# Load dataset
+data = load_iris()
+
+X = pd.DataFrame(data.data, columns=data.feature_names)
+y = pd.Series(data.target)
+
+# Encode labels
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# Train model
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+# Predictions
+y_train_pred = model.predict(X_train)
+y_test_pred = model.predict(X_test)
+
+# Evaluation
+train_accuracy = accuracy_score(y_train, y_train_pred)
+test_accuracy = accuracy_score(y_test, y_test_pred)
+
+train_precision = precision_score(y_train, y_train_pred, average="weighted")
+test_precision = precision_score(y_test, y_test_pred, average="weighted")
+
+print(f"Training Accuracy: {train_accuracy:.2f}, Test Accuracy: {test_accuracy:.2f}")
+print(f"Training Precision: {train_precision:.2f}, Test Precision: {test_precision:.2f}")
