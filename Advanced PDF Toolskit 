@@ -1,0 +1,82 @@
+# Flask Markdown to PDF Generator
+# Supports LaTeX (via MathJax), images, tables, and advanced Markdown
+
+from flask import Flask, request, render_template_string, send_file
+import markdown
+import pdfkit
+import os
+
+app = Flask(__name__)
+
+# Ensure wkhtmltopdf is installed and path is correct
+config = pdfkit.configuration(wkhtmltopdf=r"/usr/bin/wkhtmltopdf")  # Change path if needed
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; }
+img { max-width: 100%; }
+pre { background: #f4f4f4; padding: 10px; }
+</style>
+</head>
+<body>
+{{ content | safe }}
+</body>
+</html>
+"""
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        md_text = request.form['markdown']
+
+        # Convert Markdown to HTML with extensions
+        html_content = markdown.markdown(
+            md_text,
+            extensions=[
+                'extra',
+                'codehilite',
+                'tables',
+                'toc',
+                'fenced_code'
+            ]
+        )
+
+        full_html = render_template_string(HTML_TEMPLATE, content=html_content)
+
+        pdf_path = 'output.pdf'
+        pdfkit.from_string(full_html, pdf_path, configuration=config)
+
+        return send_file(pdf_path, as_attachment=True)
+
+    return '''
+    <form method="post">
+        <textarea name="markdown" rows="20" cols="80" placeholder="Enter Markdown here..."></textarea><br>
+        <button type="submit">Generate PDF</button>
+    </form>
+    '''
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+# ================= INSTALLATION =================
+# pip install flask markdown pdfkit pygments
+# sudo apt install wkhtmltopdf
+
+# ================= FEATURES =================
+# - Markdown support (tables, code blocks, lists)
+# - Syntax highlighting
+# - LaTeX support via MathJax
+# - Image rendering
+# - Clean PDF export
+
+# ================= NOTES =================
+# For Windows, change wkhtmltopdf path like:
+# r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
+
+# For better LaTeX rendering in PDF, consider using headless Chrome (playwright) instead of wkhtmltopdf.
